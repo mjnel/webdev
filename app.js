@@ -35,7 +35,7 @@ app.use(require ("express-session")({
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(new LocalStrategy(User.authenicate()));
+passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser);
 passport.deserializeUser(User.deserializeUser); 
 
