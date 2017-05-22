@@ -173,6 +173,36 @@ app.post("/campgrounds/:id/comments", function (req, res){
 
 
 
+// AUTH Routes
+
+
+app.get("/register", function(req, res){
+    
+    res.render("register")
+})
+
+
+app.post("/register", function(req, res){
+    
+    User.register(new User({username: req.body.username}),req.body.password , function(err, user){
+        if(err){
+            console.log(err);
+            return res.render("register");
+        }
+        passport.authenticate("local"),
+            passport.authenticate("local")(req, res, function(){
+            console.log("success!");
+            res.redirect("/campgrounds");
+
+        });
+        
+    });
+    
+});
+    
+    
+    
+    
 
 
 
