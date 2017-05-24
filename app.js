@@ -36,8 +36,8 @@ app.use(require ("express-session")({
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser);
-passport.deserializeUser(User.deserializeUser); 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser()); 
 
 
 
@@ -189,6 +189,7 @@ app.post("/register", function(req, res){
             console.log(err);
             return res.render("register");
         }
+            
             passport.authenticate("local")(req, res, function(){
             console.log("success!");
             res.redirect("/campgrounds");
