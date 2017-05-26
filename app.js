@@ -53,6 +53,7 @@ passport.deserializeUser(User.deserializeUser());
 app.get("/", function(req, res){
     
     res.render("landing");
+    console.log(req.user.username)
 })
 
 
@@ -211,7 +212,7 @@ app.get("/login", function (req, res){
 })
 
 app.post("/login", passport.authenticate("local",{
-    successRedirect: "/userPage",
+    successRedirect: "/campgrounds",
     failureRedirect: "/login" 
 }))
     
