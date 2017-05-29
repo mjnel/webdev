@@ -6,7 +6,7 @@ var Comment = require("../models/comment")
 
 //Comments New
 router.get("/new", isLoggedIn, function(req, res){
-    console.log(req.params.id);
+//    var currentUser = req.username.username;
    Campground.findById(req.params.id, function(err, foundcampground){
             if(!err){
                 res.render("comments/new", {campground: foundcampground});
@@ -29,12 +29,22 @@ router.get("/new", isLoggedIn, function(req, res){
 router.post("/", isLoggedIn, function (req, res){
 
     Campground.findById(req.params.id, function(err, foundSite){
-     Comment.create(req.body.comment, function(err, comment){
+     Comment.create(req.body.comment, function(err, newComment){
          if(!err){
-                    foundSite.comments.push(comment);
+             // add username and ID to comment
+              newComment.author.id = req.user._id;
+              newComment.author.username = req.user.username;
+              newComment.save();
+              
+              console.log(newComment);
+             
+             
+             // save comment
+             
+                    foundSite.comments.push(newComment);
                     foundSite.save(function(err, data){
                         if(!err){
-                            console.log(data);
+//                            console.log(data);
                             
                         res.redirect("/campgrounds/" + data._id);
                         }else{

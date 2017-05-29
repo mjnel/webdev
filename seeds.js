@@ -27,36 +27,37 @@ var campData = [{
 
 function seedDB(){
     //Remove all campgrounds
-      Campground.remove({}, function (err){
-        if(err){
-            console.log(err)
-                }else{
-                    console.log ("removed camgrounds");
-                    }
-                                        })
-      // add a new campgrounds
-      // seed = one object in the data array
-                    campData.forEach(function(seed){
-                    Campground.create(seed, function(err, campground){
-                   if(err){
-                       console.log(err);
-                   }else{
-                       console.log("added campground");
-                       //create a comment on each campground
-                       Comment.create({
-                                      text: "this place is great",
-                                      author: "Mark N"}, function(err, comment){
-                                    
-                                    if(!err){
-                                        campground.comments.push(comment);
-                                        campground.save();
-                                        console.log("Created Comments");           
-                                    }
-                            })
-                   }
-                })
-            })
-}
+      Campground.remove({}, function (err){})}
+//        if(err){
+//            console.log(err)
+//                }else{
+//                    console.log ("removed camgrounds");
+//                    }
+//                                        })
+//      // add a new campgrounds
+//      // seed = one object in the data array
+//                    campData.forEach(function(seed){
+//                    Campground.create(seed, function(err, campground){
+//                   if(err){
+//                       console.log(err);
+//                   }else{
+//                       console.log("added campground");
+//                       //create a comment on each campground
+//                       Comment.create({
+//                                      text: "this place is great",
+//                                      author: "Mark N"}, function(err, comment){
+//                                    
+//                                    if(!err){
+//                                        campground.comments.push(comment);
+//                                        campground.save();
+//                                        console.log("Created Comments");           
+//                                    }
+//                            })
+//                   }
+//                })
+//            })
+//
+//}
 
 
 

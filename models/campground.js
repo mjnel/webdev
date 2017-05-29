@@ -6,8 +6,13 @@ var campGroundSchema = new mongoose.Schema({
     image: String,
     description: String,
     comments: [{type: mongoose.Schema.Types.ObjectId,
-                ref:"Comment" }]
-
+                ref:"Comment" }],
+    author:   {id: {type: mongoose.Schema.Types.ObjectId,
+                ref:"User" },
+            username: String
+        
+    }
+    
 });
 
 
