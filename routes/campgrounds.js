@@ -46,12 +46,16 @@ router.post("/", isLoggedIn, function (req, res){
 })
 
 
+
+
 //NEW - show form to make new campground
 router.get("/new", isLoggedIn, function (req, res){
 res.render("campgrounds/new");
 
 })
 
+//render - needs the route
+// in the router - takes the parameters which are specified in the app file.
 
 // SHOW - shows more info about one campground
 router.get("/:id",function(req, res){
@@ -66,6 +70,45 @@ router.get("/:id",function(req, res){
 
     
 })
+
+
+//EDIT CAMPGROUND ROUTE
+
+
+router.get("/:id/edit", function(req,res){
+        Campground.findById(req.params.id, function(err, foundSite){
+            if(err){
+                res.redirect("/");
+                
+            }else{
+                console.log(foundSite)
+                res.send("EDIT THIS CAMPGROUND")
+            }
+                }
+          )}
+          )
+
+
+
+//UPDATE CAMPGROUND ROUTE
+
+//app.put("/blogs/:id", function(req, res){
+//    req.body.blog.body = req.sanitize(req.body.blog.body);
+//    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+//        if(!err){
+//            console.log("updated");
+//            res.redirect("/blogs/"+req.params.id);
+//        }else{
+//            console.log(err);
+//        }
+//    })
+//    
+//    //take ID of the blog
+//    //update it with the new data. 
+//})
+
+
+
 
 
 function isLoggedIn(req, res, next){
