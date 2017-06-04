@@ -50,7 +50,9 @@ router.post("/", isLoggedIn, function (req, res){
 
 //NEW - show form to make new campground
 router.get("/new", isLoggedIn, function (req, res){
-res.render("campgrounds/new");
+res.render("campgrounds/new")
+    
+    //res.render("campgrounds/new");
 
 })
 
@@ -82,7 +84,7 @@ router.get("/:id/edit", function(req,res){
                 
             }else{
                 console.log(foundSite)
-                res.send("EDIT THIS CAMPGROUND")
+                res.render("campgrounds/edit", {campground:foundSite})
             }
                 }
           )}
@@ -90,22 +92,21 @@ router.get("/:id/edit", function(req,res){
 
 
 
-//UPDATE CAMPGROUND ROUTE
+//UPDATE ROUTE
+app.put("/blogs/:id", function(req, res){
+    req.body.blog.body = req.sanitize(req.body.blog.body);
+    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+        if(!err){
+            console.log("updated");
+            res.redirect("/blogs/"+req.params.id);
+        }else{
+            console.log(err);
+        }
+    })
 
-//app.put("/blogs/:id", function(req, res){
-//    req.body.blog.body = req.sanitize(req.body.blog.body);
-//    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
-//        if(!err){
-//            console.log("updated");
-//            res.redirect("/blogs/"+req.params.id);
-//        }else{
-//            console.log(err);
-//        }
-//    })
-//    
-//    //take ID of the blog
-//    //update it with the new data. 
-//})
+    //take ID of the blog
+    //update it with the new data.
+})
 
 
 
