@@ -76,7 +76,6 @@ router.get("/:id",function(req, res){
 
 //EDIT CAMPGROUND ROUTE
 
-
 router.get("/:id/edit", function(req,res){
         Campground.findById(req.params.id, function(err, foundSite){
             if(err){
@@ -93,14 +92,14 @@ router.get("/:id/edit", function(req,res){
 
 
 //UPDATE ROUTE
-app.put("/blogs/:id", function(req, res){
-    req.body.blog.body = req.sanitize(req.body.blog.body);
-    Blog.findByIdAndUpdate(req.params.id, req.body.blog, function(err, updatedBlog){
+router.put("/:id", function(req, res){
+    Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedBlog){
         if(!err){
             console.log("updated");
-            res.redirect("/blogs/"+req.params.id);
+            res.redirect("/campgrounds/"+req.params.id);
         }else{
             console.log(err);
+            res.redirect("/campgrounds");
         }
     })
 
