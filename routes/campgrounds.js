@@ -37,7 +37,6 @@ router.post("/", isLoggedIn, function (req, res){
     
     Campground.create(newCampGround, function (err, newlyCreated){
         if (!err){
-            console.log(newCampGround);
             res.redirect("/campgrounds");
         }else {
             console.log(err);
@@ -76,13 +75,14 @@ router.get("/:id",function(req, res){
 
 //EDIT CAMPGROUND ROUTE
 
-router.get("/:id/edit", function(req,res){
+router.get("/:id/edit",isCorrectUser,  function(req,res){
+    
+    
         Campground.findById(req.params.id, function(err, foundSite){
             if(err){
                 res.redirect("/");
                 
             }else{
-                console.log(foundSite)
                 res.render("campgrounds/edit", {campground:foundSite})
             }
                 }
@@ -123,6 +123,21 @@ Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
 })    
 })
 
+
+
+function isCorrectUser(req,res,next){
+    
+    Campground.findById(req.params.id, function(err, foundSite){
+        
+        if(res.locals.currentUser.username === foundSite.author.username){
+            console.log("allowed to edit this site");
+            return next();
+        }else console.log("not the right user!!");
+   
+        
+    })  
+    
+}
 
 
 
