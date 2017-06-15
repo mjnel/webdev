@@ -10,7 +10,7 @@
         <li class = "list-group-item">Info 2</li> 
         <li class = "list-group-item">Info 3</li> 
         </div>
-<!--    MAP-->
+
     </div>
     <div class ="col-md-9">
     <div class ="thumbnail">
@@ -24,6 +24,11 @@
                 
         <div class = "text-left">
                 <a href ="/campgrounds/<%= campground._id %>/edit" class ="btn btn-warning ">Edit Campground</a>
+            
+            <form action= "/campgrounds/<%= campground._id %>?_method=DELETE" method ="POST">
+            <button class = "btn btn-danger">Delete</button>
+            </form>
+            
         </div>
 
         </div>

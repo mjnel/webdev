@@ -108,6 +108,20 @@ router.put("/:id", function(req, res){
 })
 
 
+//DESTORY ROUTE
+
+router.delete("/:id", function(req,res){
+Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
+    if(!err){
+        consle.log("campground removed")
+        res.redirect("/campgrounds");
+    }else{
+        console.log(err);
+
+    }
+})    
+})
+
 
 
 
