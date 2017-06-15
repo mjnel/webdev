@@ -126,7 +126,7 @@ Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
 
 
 
-function isLoggedIn(req, res, next){
+    function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }else {res.redirect("/login")}
