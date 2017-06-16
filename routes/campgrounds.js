@@ -75,31 +75,26 @@ router.get("/:id",function(req, res){
 
 //EDIT CAMPGROUND ROUTE
 
-router.get("/:id/edit",isCorrectUser,  function(req,res){
-    
-    
-        Campground.findById(req.params.id, function(err, foundSite){
-            if(err){
-                res.redirect("/");
+router.get("/:id/edit", checkCampgroundOwnership, function(req,res){
+    Campground.findById(req.params.id, function(err, foundSite){
+            res.render("campgrounds/edit",{campground:foundSite})
                 
-            }else{
-                res.render("campgrounds/edit", {campground:foundSite})
-            }
-                }
-          )}
-          )
+                })
+    })
+  
 
 
 
 //UPDATE ROUTE
-router.put("/:id", function(req, res){
+router.put("/:id",checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedBlog){
-        if(!err){
-            console.log("updated");
-            res.redirect("/campgrounds/"+req.params.id);
-        }else{
+        if(err){
             console.log(err);
             res.redirect("/campgrounds");
+            
+        }else{
+            console.log("updated");
+            res.redirect("/campgrounds/"+req.params.id);
         }
     })
 
@@ -109,8 +104,7 @@ router.put("/:id", function(req, res){
 
 
 //DESTORY ROUTE
-
-router.delete("/:id", function(req,res){
+router.delete("/:id",checkCampgroundOwnership, function(req,res){
 Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
     if(!err){
         console.log("campground removed")
@@ -124,21 +118,41 @@ Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
 })
 
 
+//my attempt at the authorisation
+//function isCorrectUser(req,res,next){
+//    
+//    Campground.findById(req.params.id, function(err, foundSite){
+//        
+//        if(res.locals.currentUser.username === foundSite.author.username){
+//            console.log("allowed to edit this site");
+//            return next();
+//        }else console.log("not the right user!!");
+//   
+//        
+//    })  
+//    
+//}
 
-function isCorrectUser(req,res,next){
-    
-    Campground.findById(req.params.id, function(err, foundSite){
+
+function checkCampgroundOwnership(req,res,next){
+    if(req.isAuthenticated()){
+        Campground.findById(req.params.id, function(err, foundSite){
+            if(err){
+                res.redirect("back");
+                
+                }else{
+                    //comparing the id from the found site and comparing against the request ID .equals is used as foundSite = object
+                    if(foundSite.author.id.equals(req.user._id)){
+                        next();                    }
+                else{
+                    res.redirect("back");
+                }
+                }
+        })
         
-        if(res.locals.currentUser.username === foundSite.author.username){
-            console.log("allowed to edit this site");
-            return next();
-        }else console.log("not the right user!!");
-   
-        
-    })  
-    
+    }
 }
-
+        
 
 
     function isLoggedIn(req, res, next){
