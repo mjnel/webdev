@@ -18,12 +18,51 @@ router.get("/new", isLoggedIn, function(req, res){
 })
 
 
-//POST new comment
+//EDIT
+router.get("/:comment_id/edit", function(req,res){
+// looking up the comment which is URL. That gets there by cycling through each comment on the FE and exposing a link out including the comment ID in the URL.     
+    Comment.findById(req.params.comment_id, function(err, foundComment){
+        if (err){
+            res.redirect("back")
+        }else{
+            res.render("comments/edit", {campground_id: req.params.id, comment: foundComment});    
 
-//find the campsite 
-// add the comment to that campsites comment array
+        }
+    })
+    });
 
-//My Go 
+
+
+
+//UPDATE
+
+router.put("/:id", function(req, res){
+    Comment.findByIdAndUpdate(req.params.id, req.body.comment, function(err, updatedComment){
+        if(err){
+            console.log(err);
+            res.redirect("/campgrounds");
+            
+        }else{
+            console.log("updated");
+            res.redirect("/campgrounds/");
+        }
+    })
+
+    //take ID of the blog
+    //update it with the new data.
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 //comments create 
 router.post("/", isLoggedIn, function (req, res){

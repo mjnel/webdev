@@ -58,6 +58,9 @@ res.render("campgrounds/new")
 //render - needs the route
 // in the router - takes the parameters which are specified in the app file.
 
+
+
+
 // SHOW - shows more info about one campground
 router.get("/:id",function(req, res){
     // find the campground with the ID.
