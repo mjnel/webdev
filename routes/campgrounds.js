@@ -50,7 +50,7 @@ router.post("/", isLoggedIn, function (req, res){
 //NEW - show form to make new campground
 router.get("/new", isLoggedIn, function (req, res){
 res.render("campgrounds/new")
-    
+     
     //res.render("campgrounds/new");
 
 })

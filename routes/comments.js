@@ -36,15 +36,14 @@ router.get("/:comment_id/edit", function(req,res){
 
 //UPDATE
 
-router.put("/:id", function(req, res){
-    Comment.findByIdAndUpdate(req.params.id, req.body.comment, function(err, updatedComment){
+router.put("/:comments_id", function(req, res){
+    Comment.findByIdAndUpdate(req.params.comments_id, req.body.comment, function(err, updatedComment){
         if(err){
             console.log(err);
-            res.redirect("/campgrounds");
+            res.redirect("back");
             
         }else{
-            console.log("updated");
-            res.redirect("/campgrounds/");
+            res.redirect("/campgrounds/" + req.params.id);
         }
     })
 
@@ -54,6 +53,23 @@ router.put("/:id", function(req, res){
 
 
 
+//Delete 
+
+
+router.delete("/:comment_id", function(req,res){
+res.send("got here")
+    
+    //Comment.findByIdAndRemove(req.params.comment_id, function(err,removedComment){
+//    if(!err){
+//        console.log("comment removed")
+//        res.redirect("/campgrounds/:id");
+//    }else{
+//        res.redirect("back");
+//        console.log(err);
+//
+//    }
+//})     
+})
 
 
 
