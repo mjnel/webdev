@@ -24,7 +24,7 @@
                 
                 
            <% if(currentUser && campground.author.id.equals(currentUser._id)){ %>     
-        <div class = "text-left">
+                <div class = "text-left">
                 <a href ="/campgrounds/<%= campground._id %>/edit" class ="btn btn-warning ">Edit Campground</a>
             
             
@@ -54,8 +54,8 @@
                       
                     <a href ="/campgrounds/<%=campground._id%>/comments/<%=comment._id%>/edit" class ="btn btn-xs btn-warning">Edit Comment</a>
                     
-                    <form action= "/campgrounds/<%= campground._id %>/comments/<%=comment._id%>?_method=DELETE" method ="POST">
-                    <button class = "btn btn-danger">Delete</button>
+                    <form id="delete-form" action= "/campgrounds/<%= campground._id %>/comments/<%=comment._id%>?_method=DELETE" method ="POST">
+                    <button class = "btn btn-xs btn-danger">Delete</button>
                     </form>
                     
                     
