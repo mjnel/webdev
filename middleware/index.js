@@ -52,7 +52,11 @@ var middlewareObj = {}
 middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
-    }else {res.redirect("/login")}
+    }else {
+        //flash only works on the next page - do it before you redirect. 
+        // error = key. Please login.. = value 
+        req.flash("error", "Please Login First!")
+        res.redirect("/login")}
 }
     
     

@@ -5,6 +5,7 @@ var LocalStrategy = require ("passport-local");
 var mongoose = require("mongoose");
 var bodyParser = require ("body-parser");
 var methodOverride = require ("method-override");
+var flash = require ("connect-flash");
 
 
 var Campground = require ("./models/campground");
@@ -23,6 +24,7 @@ app.set("view engine", "ejs")
 // serving tjhe public directory - dirName is the directory which is served --> yelpcamp 
 app.use(express.static(__dirname + "/public")); 
 app.use(methodOverride("_method"));
+app.use(flash())
 
 
 
@@ -45,6 +47,7 @@ passport.deserializeUser(User.deserializeUser());
 // setting the response to contain the current user name
 app.use(function (req, res, next){
     res.locals.currentUser= req.user;
+    res.locals.message = req.flash("error");
     next(); 
 });
 

@@ -6,7 +6,6 @@ var User = require("../models/user");
 
 router.get("/", function(req, res){
     
-    console.log(res.locals.currentUser);
     res.render("landing");
 
     
