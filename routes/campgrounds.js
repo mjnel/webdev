@@ -1,6 +1,8 @@
 var express = require("express");
 var router = express.Router()   
-var Campground = require ("../models/campground")
+var Campground = require ("../models/campground");
+var middleware = require ("../middleware");
+
 
 
 router.get("/", function(req, res){
@@ -17,7 +19,7 @@ router.get("/", function(req, res){
 
 
 // CREATE - add new campground to db
-router.post("/", isLoggedIn, function (req, res){
+router.post("/", middleware.isLoggedIn, function (req, res){
     
     var campname = req.body.name;
     var campImage = req.body.image;
@@ -48,7 +50,7 @@ router.post("/", isLoggedIn, function (req, res){
 
 
 //NEW - show form to make new campground
-router.get("/new", isLoggedIn, function (req, res){
+router.get("/new", middleware.isLoggedIn, function (req, res){
 res.render("campgrounds/new")
      
     //res.render("campgrounds/new");
@@ -78,7 +80,7 @@ router.get("/:id",function(req, res){
 
 //EDIT CAMPGROUND ROUTE
 
-router.get("/:id/edit", checkCampgroundOwnership, function(req,res){
+router.get("/:id/edit", middleware.checkCampgroundOwnership, function(req,res){
     Campground.findById(req.params.id, function(err, foundSite){
             res.render("campgrounds/edit",{campground:foundSite})
                 
@@ -89,7 +91,7 @@ router.get("/:id/edit", checkCampgroundOwnership, function(req,res){
 
 
 //UPDATE ROUTE
-router.put("/:id",checkCampgroundOwnership, function(req, res){
+router.put("/:id",middleware.checkCampgroundOwnership, function(req, res){
     Campground.findByIdAndUpdate(req.params.id, req.body.campground, function(err, updatedBlog){
         if(err){
             console.log(err);
@@ -107,7 +109,7 @@ router.put("/:id",checkCampgroundOwnership, function(req, res){
 
 
 //DESTORY ROUTE
-router.delete("/:id",checkCampgroundOwnership, function(req,res){
+router.delete("/:id",middleware.checkCampgroundOwnership, function(req,res){
 Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
     if(!err){
         console.log("campground removed")
@@ -121,49 +123,8 @@ Campground.findByIdAndRemove(req.params.id, function(err,removedCampground){
 })
 
 
-//my attempt at the authorisation
-//function isCorrectUser(req,res,next){
-//    
-//    Campground.findById(req.params.id, function(err, foundSite){
-//        
-//        if(res.locals.currentUser.username === foundSite.author.username){
-//            console.log("allowed to edit this site");
-//            return next();
-//        }else console.log("not the right user!!");
-//   
-//        
-//    })  
-//    
-//}
 
-
-function checkCampgroundOwnership(req,res,next){
-    if(req.isAuthenticated()){
-        Campground.findById(req.params.id, function(err, foundSite){
-            if(err){
-                res.redirect("back");
-                
-                }else{
-                    //comparing the id from the found site and comparing against the request ID .equals is used as foundSite = object
-                    if(foundSite.author.id.equals(req.user._id)){
-                        next();                    }
-                else{
-                    res.redirect("back");
-                }
-                }
-        })
-        
-    }
-}
-        
-
-
-    function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }else {res.redirect("/login")}
-}
-
+ 
 
 
 
