@@ -19,7 +19,7 @@ router.get("/new", isLoggedIn, function(req, res){
 
 
 //EDIT
-router.get("/:comment_id/edit", function(req,res){
+router.get("/:comment_id/edit",checkCommentOwnership, function(req,res){
 // looking up the comment which is URL. That gets there by cycling through each comment on the FE and exposing a link out including the comment ID in the URL.     
     Comment.findById(req.params.comment_id, function(err, foundComment){
         if (err){
@@ -36,9 +36,9 @@ router.get("/:comment_id/edit", function(req,res){
 
 //UPDATE
 
-router.put("/:comments_id", function(req, res){
+router.put("/:comment_id", function(req, res){
     
-    Comment.findByIdAndUpdate(req.params.comments_id, req.body.comment, function(err, updatedComment){
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedComment){
         if(!err){
             console.log("updated")
             res.redirect("/campgrounds/" + req.params.id);            
@@ -108,6 +108,31 @@ router.post("/", isLoggedIn, function (req, res){
  })
 })
 })
+
+
+
+
+function checkCommentOwnership(req,res,next){
+    if(req.isAuthenticated()){
+        Comment.findById(req.params.comment_id, function(err, foundComment){
+            if(err){
+                res.redirect("back");
+                
+                }else{
+                    //comparing the id from the found site and comparing against the request ID .equals is used as foundSite = object
+                    if(foundComment.author.id.equals(req.user._id)){
+                        next();                    }
+                else{
+                    res.redirect("back");
+                }
+                }
+        })
+        
+    }else {
+        res.redirect("back"); 
+    }
+}
+
 
 
 //middleware - used
