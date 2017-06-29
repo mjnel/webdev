@@ -63,7 +63,7 @@ Comment.findByIdAndRemove(req.params.comment_id, function(err){
         console.log(err);
 
     }else{
-        console.log("comment removed")
+        req.flash("success", "Comment deleted!");
         res.redirect("/campgrounds/"+ req.params.id);
 
     }
@@ -99,7 +99,7 @@ router.post("/", middleware.isLoggedIn, function (req, res){
                     foundSite.save(function(err, data){
                         if(!err){
 //                            console.log(data);
-                            
+                        req.flash("success", "Successfully added commnet");    
                         res.redirect("/campgrounds/" + data._id);
                         }else{
                             console.log(err);
@@ -107,6 +107,9 @@ router.post("/", middleware.isLoggedIn, function (req, res){
                     })
          
      }
+         else {
+             req.flash("error", "Something went wrong!");
+         }
  })
 })
 })

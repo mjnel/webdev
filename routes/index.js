@@ -5,6 +5,7 @@ var User = require("../models/user");
 
 
 router.get("/", function(req, res){
+
     res.render("landing");
 
     
@@ -24,12 +25,12 @@ router.post("/register", function(req, res){
     
     User.register(new User({username: req.body.username}),req.body.password , function(err, user){
         if(err){
-            console.log(err);
+            req.flash("error", err.message);
             return res.render("register");
         }
             
             passport.authenticate("local")(req, res, function(){
-            console.log("success!");
+            req.flash("success", "Welcome to YelpCamp " + user.username);
             res.redirect("/campgrounds");
 
         });
@@ -41,6 +42,7 @@ router.post("/register", function(req, res){
 //Login
 
 router.get("/login", function (req, res){
+    console.log(res.locals.error);
     res.render("login");
     
 })
