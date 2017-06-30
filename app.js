@@ -18,7 +18,9 @@ var seedDB = require ("./seeds")
 
 //adding campgrounds to the database
 seedDB();
-mongoose.connect ("mongodb://localhost/yelpcamp");
+//mongoose.connect ("mongodb://localhost/yelpcamp");
+mongoose.connect("mongodb://mark:rusty@ds143542.mlab.com:43542/yelpcamp123");
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs")
 // serving tjhe public directory - dirName is the directory which is served --> yelpcamp 
