@@ -66,11 +66,13 @@ app.use("/campgrounds/:id/comments/", commentRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use(authRoutes);
 
-
-
-
-
-app.listen(3000, function () {
-  console.log('up on localhost:3000')
+app.listen (process.env.PORT, process.env.IP, function (){
+    console.log("server started");
 })
+
+
+
+//app.listen(3000, function () {
+//  console.log('up on localhost:3000')
+//})
 
