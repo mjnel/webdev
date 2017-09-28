@@ -17,9 +17,9 @@ var seedDB = require ("./seeds")
 //**APP CONFIG** 
 
 //adding campgrounds to the database
-seedDB();
-//mongoose.connect ("mongodb://localhost/yelpcamp");
-mongoose.connect("mongodb://mark:rusty@ds143542.mlab.com:43542/yelpcamp123");
+// seedDB();
+// mongoose.connect ("mongodb://localhost/yelpcamp");
+//mongoose.connect("mongodb://mark:rusty@ds143542.mlab.com:43542/yelpcamp123");
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set("view engine", "ejs")
@@ -66,13 +66,13 @@ app.use("/campgrounds/:id/comments/", commentRoutes);
 app.use("/campgrounds", campgroundRoutes);
 app.use(authRoutes);
 
-app.listen (process.env.PORT, process.env.IP, function (){
-    console.log("server started");
-})
-
-
-
-//app.listen(3000, function () {
-//  console.log('up on localhost:3000')
+//app.listen (process.env.PORT, process.env.IP, function (){
+  //  console.log("server started");
 //})
+
+
+
+app.listen(3000, function () {
+  console.log('up on localhost:3000')
+})
 
